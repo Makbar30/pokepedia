@@ -1,11 +1,29 @@
 export const PokemonReducer = (state, action) => {
   switch (action.type) {
-    case "REMOVE_POKEMON":
+    case "REFRESH_MY_POKEMON":
       return {
         ...state,
-        myPokemon: [...action.payload]
+        myPokemon: [...action.payload],
+      };
+    case "REMOVE_POKEMON":
+      let myPokemon = [...state.myPokemon]
+      console.log("myPokemon",myPokemon)
+      let selectedPokemon = action.payload
+      myPokemon = myPokemon.filter((pokemon) => pokemon.idMe !== selectedPokemon.id)
+      console.log("hasilfilter",myPokemon)
+      window.localStorage.setItem(
+        "MY_POKEMON",
+        JSON.stringify([...myPokemon])
+      );
+      return {
+        ...state,
+        myPokemon: [...myPokemon],
       };
     case "CATCH_POKEMON":
+      window.localStorage.setItem(
+        "MY_POKEMON",
+        JSON.stringify([...state.myPokemon, action.payload])
+      );
       return {
         ...state,
         myPokemon: [...state.myPokemon, action.payload],
@@ -14,7 +32,7 @@ export const PokemonReducer = (state, action) => {
     case "SET_COUNTER":
       return {
         ...state,
-        apiCallsCounter: state.apiCallsCounter + 1,
+        apiCallsCounter: action.payload,
       };
     case "SET_FLAG_GO_DETAIL":
       return {

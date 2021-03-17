@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { css } from "@emotion/react";
 
 const headerStyle = css({
@@ -13,20 +13,27 @@ const headerStyle = css({
   padding: "10px 0px",
   borderRadius: "20px",
   boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-  backgroundColor: "white"
+  backgroundColor: "white",
+  zIndex: 1,
+  "& a": {
+    color: "#222224",
+  },
+  "& .active": {
+    color: "#f00000",
+  },
 });
 
 function menuBar() {
   return (
     <nav css={headerStyle}>
-      <Link to="/list">
-        <i class="material-icons nav__icon">dashboard</i>
-      </Link>
-      <Link to="/me">
-        <i class="material-icons nav__icon">catching_pokemon</i>
-      </Link>
+      <NavLink to="/list">
+        <i className="material-icons nav__icon">dashboard</i>
+      </NavLink>
+      <NavLink to="/me">
+        <i className="material-icons nav__icon">catching_pokemon</i>
+      </NavLink>
     </nav>
   );
 }
 
-export default menuBar
+export default menuBar;

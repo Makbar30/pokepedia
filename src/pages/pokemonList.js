@@ -62,7 +62,7 @@ const PokemonList = () => {
 
   useEffect(() => {
     if (callingApi) {
-      setApiCallsCounter(apiCallsCounter);
+      setApiCallsCounter(apiCallsCounter+1);
     }
   }, [callingApi]);
 
@@ -87,7 +87,7 @@ const PokemonList = () => {
       <MenuBar />
       {pokemons &&
         pokemons.map((pokemon) => (
-          <PokemonCard key={pokemon.id} selectedPokemon={pokemon} />
+          <PokemonCard key={pokemon.id} selectedPokemon={pokemon} path="list" />
         ))}
     </div>
   );

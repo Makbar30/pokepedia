@@ -16,6 +16,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+
+
 function App() {
   return (
     <Router>
@@ -30,14 +32,12 @@ function App() {
                 body: {
                   margin: 0,
                   padding: 0,
-                  boxSizing: "border-box",
-                  // height: "100%",
+                  boxSizing: "border-box"
                 },
                 html: {
                   margin: 0,
                   padding: 0,
-                  boxSizing: "border-box",
-                  // height: "100%",
+                  boxSizing: "border-box"
                 },
               }}
             />
@@ -45,7 +45,7 @@ function App() {
               <Route exact path="/">
                 <Redirect to="/list" />
               </Route>
-              <Route exact path="/list">
+              <Route path="/list">
                 <PokemonList />
               </Route>
               <Route path="/detail/:id">

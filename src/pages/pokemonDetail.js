@@ -3,6 +3,7 @@ import React, { Fragment, useState, useEffect, useContext } from "react";
 import { css } from "@emotion/react";
 import { gql, useQuery } from "@apollo/client";
 import { PokemonContext } from "../pokemonContext";
+import { Redirect } from "react-router-dom";
 
 const renderTypes = (types) => {
   const typesName = types.map((typeItem) => typeItem.type.name);
@@ -27,6 +28,7 @@ const renderAbilities = (abilities) => {
 const PokemonDetail = () => {
   const [pokemon, setPokemon] = useState(null);
   const { selectedPokemon, catchPokemon } = useContext(PokemonContext);
+  const queryName = selectedPokemon ? selectedPokemon.name : "";
 
   const GET_POKEMONS_DETAIL = gql`
     query pokemon($name: String!) {
@@ -67,7 +69,7 @@ const PokemonDetail = () => {
   `;
 
   let gqlVariablesPokemons = {
-    name: selectedPokemon.name,
+    name: queryName,
   };
 
   const { error, data, loading } = useQuery(GET_POKEMONS_DETAIL, {
@@ -89,9 +91,7 @@ const PokemonDetail = () => {
 
   const tryCatchPokemon = () => {
     if (Math.random() >= 0.5) {
-      return prompt(
-        "Berhasil ditangkap \n Masukan nickname untuk pokemon ini"
-      );
+      return true;
     } else {
       alert("Ouch, Gagal ditangkap , Coba lagi yuk ");
       return false;
@@ -267,7 +267,7 @@ const PokemonDetail = () => {
               <div className="statRow">
                 {pokemon.stats &&
                   pokemon.stats.map((stats) => (
-                    <Fragment>
+                    <Fragment key={stats.stat.name}>
                       <h5 style={{ textAlign: "end" }}>{stats.stat.name}</h5>
                       <h5
                         style={{ width: `calc(100% * ${stats.base_stat}/255)` }}
@@ -282,24 +282,35 @@ const PokemonDetail = () => {
               <h2>List Moves</h2>
               <div className="moveRow">
                 {pokemon.moves &&
-                  pokemon.moves.map((moves) => <h5>{moves.move.name}</h5>)}
+                  pokemon.moves.map((moves) => (
+                    <h5 key={moves.move.name}>{moves.move.name}</h5>
+                  ))}
               </div>
             </div>
             <div className="catchBtn">
               <button
                 type="button"
                 onClick={async (e) => {
-                  let nicknamePokemon = tryCatchPokemon();
-                  if (nicknamePokemon) {
+                  let isCatch = tryCatchPokemon();
+                  let isValid = false;
+                  if (isCatch) {
+                    while (!isValid) {
                       try {
-                          let newPokemon = {...pokemon}
-                        newPokemon["nickname"] = nicknamePokemon
+                        let nicknamePokemon = prompt(
+                          "Berhasil ditangkap \n Masukan nickname untuk pokemon ini"
+                        );
+                        let newPokemon = { ...pokemon };
+                        newPokemon["nickname"] = nicknamePokemon;
+                        newPokemon["idMe"] = `${newPokemon.name}-${nicknamePokemon}`
                         await catchPokemon(newPokemon);
+                        isValid = true;
                         alert("Pokemon berhasil ditambahkan ke [My Pokemon]");
                       } catch (error) {
-                          return alert(error)
+                        alert(error);
+                        (isValid = false);
                       }
-                      
+                    }
+                    return true
                   }
                 }}
               >
@@ -310,6 +321,9 @@ const PokemonDetail = () => {
         </Fragment>
       );
     } else {
+      if (queryName === "") {
+        return <Redirect to="/list" />;
+      }
       return "Loading...";
     }
   };

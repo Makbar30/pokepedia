@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useEffect } from "react";
 import { PokemonReducer } from "./pokemonReducer";
-import { persistState } from "./utills/persistState";
+// import { persistState } from "./utills/persistState";
 
 const initialState = {
   myPokemon: [],
@@ -13,23 +13,31 @@ const initialState = {
 export const PokemonContext = createContext(initialState);
 export const PokemonProvider = ({ children }) => {
   const [state, dispatch] = useReducer(PokemonReducer, initialState);
-  useEffect(() => persistState("MY_POKEMON", state.myPokemon), [
-    state.myPokemon
-  ]);
-
-  function removePokemon(pokemonID) {
-    let myPokemon = [...state.myPokemon]
-    myPokemon = myPokemon.filter((pokemon, index) => index === pokemonID)
-    console.log(myPokemon)
+  
+  useEffect(() => {
+    const listMyPokemon = JSON.parse(window.localStorage.getItem("MY_POKEMON"))
+    if(listMyPokemon){
+      refreshMyPokemon(listMyPokemon)
+    }
+  }, []);
+  function removePokemon(selectedPokemon) {
+    
     dispatch({
       type: "REMOVE_POKEMON",
-      payload: myPokemon,
+      payload: selectedPokemon,
     });
   }
 
   function setPokemons(pokemons) {
     dispatch({
       type: "SET_POKEMONS",
+      payload: pokemons,
+    });
+  }
+
+  function refreshMyPokemon(pokemons) {
+    dispatch({
+      type: "REFRESH_MY_POKEMON",
       payload: pokemons,
     });
   }
@@ -58,6 +66,11 @@ export const PokemonProvider = ({ children }) => {
   function catchPokemon(pokemon) {
     let myPokemon = [...state.myPokemon];
     let newPokemon = pokemon;
+    if(newPokemon.nickname === ""){
+      throw new Error(
+        "Nickname kosong"
+      );
+    }
     myPokemon = myPokemon.filter(
       (pokemon) =>
         pokemon.name === newPokemon.name &&
@@ -85,6 +98,7 @@ export const PokemonProvider = ({ children }) => {
         isGoDetail: state.isGoDetail,
         selectedPokemon: state.selectedPokemon,
         setSelectedPokemon,
+        refreshMyPokemon,
         setApiCallsCounter,
         setPokemons,
         goDetail,

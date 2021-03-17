@@ -9,13 +9,14 @@ const PokemonCard = (props) => {
   let history = useHistory();
   const {
     pokemons,
+    myPokemon,
     setPokemons,
     isGoDetail,
     goDetail,
     setSelectedPokemon,
-    removePokemon
+    removePokemon,
   } = useContext(PokemonContext);
-  let pokemonsList = [...pokemons];
+  let pokemonsList = props.path === "list" ? [...pokemons] : [...myPokemon];
   const { data } = usePalette(
     props.selectedPokemon.image && props.selectedPokemon.image
   );
@@ -23,6 +24,8 @@ const PokemonCard = (props) => {
   const currentPokemonIndex = pokemonsList.findIndex(
     (pokemon) => pokemon.id === props.selectedPokemon.id
   );
+  let countPokemon = [...myPokemon].filter(pokemon => pokemon.id === props.selectedPokemon.id).length
+  const [colorsPalette, setColorsPalette] = useState(null);
 
   useEffect(() => {
     if (
@@ -32,7 +35,7 @@ const PokemonCard = (props) => {
     ) {
       setColorsPalette(data);
       pokemonsList[currentPokemonIndex]["colorsPalette"] = data;
-      setPokemons(pokemonsList);
+      if (props.path === "list") setPokemons(pokemonsList);
     }
   }, [data]);
 
@@ -44,7 +47,6 @@ const PokemonCard = (props) => {
       setColorsPalette(pokemonsList[currentPokemonIndex].colorsPalette);
     }
   }, []);
-  const [colorsPalette, setColorsPalette] = useState(null);
 
   const handleClick = (e) => {
     goDetail(isGoDetail);
@@ -52,9 +54,22 @@ const PokemonCard = (props) => {
     history.push(`detail/${props.selectedPokemon.id}`);
   };
 
-  const handleRelease = (e) => {
-    console.log(props.idCatch);
-    removePokemon(props.idCatch)
+  const handleRelease = async (e) => {
+    let releasedPokemon = {
+      id: props.selectedPokemon.idMe
+    };
+
+    if (
+      window.confirm(`${releasedPokemon.id} akan dilepas. Sudah yakin ? `)
+    ) {
+      try {
+        await removePokemon(releasedPokemon);
+        alert(`${releasedPokemon.id} sudah dilepas.`)
+      } catch (error) {
+        console.log(error)
+      }
+      
+    }
   };
 
   const renderCard = () => {
@@ -68,11 +83,20 @@ const PokemonCard = (props) => {
         alignItems: "center",
         backgroundColor: colorsPalette.lightVibrant,
         borderRadius: "20px",
+        position:"relative",
         "& .imgPokemon": {
           margin: "35px 0 30px",
           "& img": {
             maxHeight: "100px",
           },
+          "& h2": {
+            margin:0,
+            position:"absolute",
+            top:10,
+            left:15,
+            color: colorsPalette.darkMuted,
+            fontSize: "18px"
+          }
         },
         "& .pokemonData": {
           width: "100%",
@@ -91,19 +115,19 @@ const PokemonCard = (props) => {
           },
         },
         "& .releaseContainer": {
+          width: "100%",
+          margin: "0%",
+          textAlign: "center",
+          backgroundColor: colorsPalette.darkMuted,
+          "& button": {
             width: "100%",
-            margin: "0%",
-            textAlign: "center",
             backgroundColor: colorsPalette.darkMuted,
-            "& button": {
-                width: "100%",
-                backgroundColor: colorsPalette.darkMuted,
-                border: "0px",
-                color: "white",
-                fontsize: "20px",
-                padding: "10px 0"
-            },
+            border: "0px",
+            color: "white",
+            fontsize: "20px",
+            padding: "10px 0",
           },
+        },
       });
       return (
         <Fragment>
@@ -113,6 +137,7 @@ const PokemonCard = (props) => {
                 src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${props.selectedPokemon.id}.png`}
                 alt="front"
               />
+              {props.path === "list" && <h2>x{countPokemon}</h2>}
             </div>
             <div className="pokemonData">
               <h2 className="pokemonName">
@@ -127,7 +152,7 @@ const PokemonCard = (props) => {
             {props.selectedPokemon.nickname && (
               <div className="releaseContainer">
                 <button type="button" onClick={(e) => handleRelease(e)}>
-                Release Pokemon
+                  Release Pokemon
                 </button>
               </div>
             )}
