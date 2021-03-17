@@ -7,10 +7,8 @@ export const PokemonReducer = (state, action) => {
       };
     case "REMOVE_POKEMON":
       let myPokemon = [...state.myPokemon]
-      console.log("myPokemon",myPokemon)
       let selectedPokemon = action.payload
       myPokemon = myPokemon.filter((pokemon) => pokemon.idMe !== selectedPokemon.id)
-      console.log("hasilfilter",myPokemon)
       window.localStorage.setItem(
         "MY_POKEMON",
         JSON.stringify([...myPokemon])
