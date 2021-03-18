@@ -95,7 +95,7 @@ const PokemonCard = (props) => {
             top:10,
             left:15,
             color: colorsPalette.darkMuted,
-            fontSize: "18px"
+            fontSize: "15px"
           }
         },
         "& .pokemonData": {
@@ -103,11 +103,11 @@ const PokemonCard = (props) => {
           margin: "0%",
           textAlign: "center",
           backgroundColor: colorsPalette.darkMuted,
-          "& .pokemonName": {
+          "& h2": {
             margin: "10px 0 8px",
             textTransform: "capitalize",
             color: "#fff",
-            fontSize: "18px",
+            fontSize: "16px",
             overflow: "hidden",
             whiteSpace: "nowrap",
             textOverflow: "ellipsis",
