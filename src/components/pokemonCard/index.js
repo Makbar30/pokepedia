@@ -132,7 +132,7 @@ const PokemonCard = (props) => {
       return (
         <Fragment>
           <div css={cardContainerStyle}>
-            <div className="imgPokemon" onClick={(e) => handleClick(e)}>
+            <div className="imgPokemon" onClick={(e) => handleClick(e)} data-testid="detail-btn">
               <img
                 src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${props.selectedPokemon.id}.png`}
                 alt="front"

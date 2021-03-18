@@ -93,7 +93,7 @@ const PokemonDetail = () => {
     if (Math.random() >= 0.5) {
       return true;
     } else {
-      alert("Ouch, Gagal ditangkap , Coba lagi yuk ");
+      alert("Ouch, Gagal ditangkap , Coba lagi yuk");
       return false;
     }
   };
