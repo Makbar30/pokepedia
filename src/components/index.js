@@ -1,4 +1,4 @@
-import MenuBar from './menuBar'
-import PokemonCard from './pokemonCard'
+import MenuBar from "./menuBar";
+import PokemonCard from "./pokemonCard";
 
-export { MenuBar, PokemonCard }
+export { MenuBar, PokemonCard };

@@ -62,7 +62,7 @@ const PokemonList = () => {
 
   useEffect(() => {
     if (callingApi) {
-      setApiCallsCounter(apiCallsCounter+1);
+      setApiCallsCounter(apiCallsCounter + 1);
     }
   }, [callingApi]);
 

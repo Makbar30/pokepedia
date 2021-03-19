@@ -5,15 +5,17 @@ import { MenuBar, PokemonCard } from "../components/";
 import { css } from "@emotion/react";
 
 const PokemonMe = () => {
-  const { myPokemon, setApiCallsCounter, setPokemons } = useContext(PokemonContext);
+  const { myPokemon, setApiCallsCounter, setPokemons } = useContext(
+    PokemonContext
+  );
   const [listMyPokemon, setListMyPokemon] = useState(null);
-  
-  useEffect(()=>{
-    setListMyPokemon(myPokemon)
-    setApiCallsCounter(0)
-    setPokemons([])
-  },[myPokemon])
-  
+
+  useEffect(() => {
+    setListMyPokemon(myPokemon);
+    setApiCallsCounter(0);
+    setPokemons([]);
+  }, [myPokemon]);
+
   return (
     <Fragment>
       <div css={containerStyle}>
@@ -21,8 +23,13 @@ const PokemonMe = () => {
         {listMyPokemon && listMyPokemon.length > 0 ? (
           <Fragment>
             {listMyPokemon &&
-              listMyPokemon.map((pokemon,index) => (
-                <PokemonCard key={pokemon.id} selectedPokemon={pokemon} idCatch={index} path="me"/>
+              listMyPokemon.map((pokemon, index) => (
+                <PokemonCard
+                  key={pokemon.id}
+                  selectedPokemon={pokemon}
+                  idCatch={index}
+                  path="me"
+                />
               ))}
           </Fragment>
         ) : (
@@ -39,8 +46,8 @@ const containerStyle = css({
   display: "flex",
   flexWrap: "wrap",
   justifyContent: "space-evenly",
-  alignItems:"center",
-  textAlign: "center"
+  alignItems: "center",
+  textAlign: "center",
 });
 
 export default PokemonMe;

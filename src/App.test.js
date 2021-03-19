@@ -85,7 +85,7 @@ test("check if menu list is loaded (graphql)", async () => {
     </MockedProvider>,
     { route: "/list" }
   );
-  const text = await screen.findByText(/#1 bulbasaur/)
+  const text = await screen.findByText(/#1 bulbasaur/);
   expect(text).toBeInTheDocument();
 });
 
@@ -151,13 +151,16 @@ test("click pokemon will go to pokemon detail work", async () => {
     </MockedProvider>,
     { route: "/list" }
   );
-  const btn = await screen.findByTestId('detail-btn')
-  fireEvent.click(btn, new MouseEvent('click', {
-    bubbles: true,
-    cancelable: true
-  }))
+  const btn = await screen.findByTestId("detail-btn");
+  fireEvent.click(
+    btn,
+    new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+    })
+  );
 
-  const pokemonType = await screen.findByText(/Catch Pokemon/)
+  const pokemonType = await screen.findByText(/Catch Pokemon/);
   expect(pokemonType).toBeInTheDocument();
 });
 
@@ -223,15 +226,21 @@ test("catch pokemon", async () => {
     </MockedProvider>,
     { route: "/list" }
   );
-  const btn = await screen.findByTestId('detail-btn')
-  fireEvent.click(btn, new MouseEvent('click', {
-    bubbles: true,
-    cancelable: true
-  }))
+  const btn = await screen.findByTestId("detail-btn");
+  fireEvent.click(
+    btn,
+    new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+    })
+  );
 
-  const catchBtn = await screen.findByText(/Catch Pokemon/)
-  fireEvent.click(catchBtn, new MouseEvent('click', {
-    bubbles: true,
-    cancelable: true
-  }))
+  const catchBtn = await screen.findByText(/Catch Pokemon/);
+  fireEvent.click(
+    catchBtn,
+    new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+    })
+  );
 });

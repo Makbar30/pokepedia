@@ -6,7 +6,7 @@ ReactJS CSR mini project using pokeapi-graphql
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm run dev`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.

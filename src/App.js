@@ -16,8 +16,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-
-
 function App() {
   return (
     <Router>
@@ -32,12 +30,12 @@ function App() {
                 body: {
                   margin: 0,
                   padding: 0,
-                  boxSizing: "border-box"
+                  boxSizing: "border-box",
                 },
                 html: {
                   margin: 0,
                   padding: 0,
-                  boxSizing: "border-box"
+                  boxSizing: "border-box",
                 },
               }}
             />

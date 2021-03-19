@@ -24,7 +24,9 @@ const PokemonCard = (props) => {
   const currentPokemonIndex = pokemonsList.findIndex(
     (pokemon) => pokemon.id === props.selectedPokemon.id
   );
-  let countPokemon = [...myPokemon].filter(pokemon => pokemon.id === props.selectedPokemon.id).length
+  let countPokemon = [...myPokemon].filter(
+    (pokemon) => pokemon.id === props.selectedPokemon.id
+  ).length;
   const [colorsPalette, setColorsPalette] = useState(null);
 
   useEffect(() => {
@@ -56,19 +58,16 @@ const PokemonCard = (props) => {
 
   const handleRelease = async (e) => {
     let releasedPokemon = {
-      id: props.selectedPokemon.idMe
+      id: props.selectedPokemon.idMe,
     };
 
-    if (
-      window.confirm(`${releasedPokemon.id} akan dilepas. Sudah yakin ? `)
-    ) {
+    if (window.confirm(`${releasedPokemon.id} akan dilepas. Sudah yakin ? `)) {
       try {
         await removePokemon(releasedPokemon);
-        alert(`${releasedPokemon.id} sudah dilepas.`)
+        alert(`${releasedPokemon.id} sudah dilepas.`);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-      
     }
   };
 
@@ -83,20 +82,20 @@ const PokemonCard = (props) => {
         alignItems: "center",
         backgroundColor: colorsPalette.lightVibrant,
         borderRadius: "20px",
-        position:"relative",
+        position: "relative",
         "& .imgPokemon": {
           margin: "35px 0 30px",
           "& img": {
             maxHeight: "100px",
           },
           "& h2": {
-            margin:0,
-            position:"absolute",
-            top:10,
-            left:15,
+            margin: 0,
+            position: "absolute",
+            top: 10,
+            left: 15,
             color: colorsPalette.darkMuted,
-            fontSize: "15px"
-          }
+            fontSize: "15px",
+          },
         },
         "& .pokemonData": {
           width: "100%",
@@ -132,7 +131,11 @@ const PokemonCard = (props) => {
       return (
         <Fragment>
           <div css={cardContainerStyle}>
-            <div className="imgPokemon" onClick={(e) => handleClick(e)} data-testid="detail-btn">
+            <div
+              className="imgPokemon"
+              onClick={(e) => handleClick(e)}
+              data-testid="detail-btn"
+            >
               <img
                 src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${props.selectedPokemon.id}.png`}
                 alt="front"

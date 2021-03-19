@@ -299,23 +299,25 @@ const PokemonDetail = () => {
                         let nicknamePokemon = prompt(
                           "Berhasil ditangkap \n Masukan nickname untuk pokemon ini"
                         );
-                        if(nicknamePokemon){
+                        if (nicknamePokemon) {
                           let newPokemon = { ...pokemon };
                           newPokemon["nickname"] = nicknamePokemon.trim();
-                          newPokemon["idMe"] = `${newPokemon.name}-${nicknamePokemon}`
+                          newPokemon[
+                            "idMe"
+                          ] = `${newPokemon.name}-${nicknamePokemon}`;
                           await catchPokemon(newPokemon);
                           isValid = true;
                           alert("Pokemon berhasil ditambahkan ke [My Pokemon]");
-                        }else{
-                          isValid = true
+                        } else {
+                          alert("Nickname kosong");
+                          isValid = false;
                         }
-                        
                       } catch (error) {
                         alert(error);
                         isValid = false;
                       }
                     }
-                    return true
+                    return true;
                   }
                 }}
               >

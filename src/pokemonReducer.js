@@ -6,13 +6,12 @@ export const PokemonReducer = (state, action) => {
         myPokemon: [...action.payload],
       };
     case "REMOVE_POKEMON":
-      let myPokemon = [...state.myPokemon]
-      let selectedPokemon = action.payload
-      myPokemon = myPokemon.filter((pokemon) => pokemon.idMe !== selectedPokemon.id)
-      window.localStorage.setItem(
-        "MY_POKEMON",
-        JSON.stringify([...myPokemon])
+      let myPokemon = [...state.myPokemon];
+      let selectedPokemon = action.payload;
+      myPokemon = myPokemon.filter(
+        (pokemon) => pokemon.idMe !== selectedPokemon.id
       );
+      window.localStorage.setItem("MY_POKEMON", JSON.stringify([...myPokemon]));
       return {
         ...state,
         myPokemon: [...myPokemon],

@@ -1,6 +1,5 @@
 import React, { createContext, useReducer, useEffect } from "react";
 import { PokemonReducer } from "./pokemonReducer";
-// import { persistState } from "./utills/persistState";
 
 const initialState = {
   myPokemon: [],
@@ -13,15 +12,14 @@ const initialState = {
 export const PokemonContext = createContext(initialState);
 export const PokemonProvider = ({ children }) => {
   const [state, dispatch] = useReducer(PokemonReducer, initialState);
-  
+
   useEffect(() => {
-    const listMyPokemon = JSON.parse(window.localStorage.getItem("MY_POKEMON"))
-    if(listMyPokemon){
-      refreshMyPokemon(listMyPokemon)
+    const listMyPokemon = JSON.parse(window.localStorage.getItem("MY_POKEMON"));
+    if (listMyPokemon) {
+      refreshMyPokemon(listMyPokemon);
     }
   }, []);
   function removePokemon(selectedPokemon) {
-    
     dispatch({
       type: "REMOVE_POKEMON",
       payload: selectedPokemon,
@@ -66,10 +64,8 @@ export const PokemonProvider = ({ children }) => {
   function catchPokemon(pokemon) {
     let myPokemon = [...state.myPokemon];
     let newPokemon = pokemon;
-    if(newPokemon.nickname === ""){
-      throw new Error(
-        "Nickname kosong"
-      );
+    if (newPokemon.nickname === "") {
+      throw new Error("Nickname kosong");
     }
     myPokemon = myPokemon.filter(
       (pokemon) =>
