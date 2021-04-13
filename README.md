@@ -2,6 +2,7 @@
 
 ReactJS CSR mini project using pokeapi-graphql
 
+Link : http://pok3pedia.herokuapp.com/
 ## Available Scripts
 
 In the project directory, you can run:
