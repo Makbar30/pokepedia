@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { Fragment, useState, useContext, useEffect } from "react";
+import LazyLoad from "react-lazyload";
 import { css } from "@emotion/react";
 import { usePalette } from "react-palette";
 import { PokemonContext } from "../../pokemonContext";
@@ -83,10 +84,13 @@ const PokemonCard = (props) => {
         backgroundColor: colorsPalette.lightVibrant,
         borderRadius: "20px",
         position: "relative",
+        // height: "100px",
         "& .imgPokemon": {
           margin: "35px 0 30px",
+          height: "100px",
           "& img": {
-            maxHeight: "100px",
+            height: "100px",
+            width: "100px",
           },
           "& h2": {
             margin: 0,
@@ -136,10 +140,13 @@ const PokemonCard = (props) => {
               onClick={(e) => handleClick(e)}
               data-testid="detail-btn"
             >
-              <img
-                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${props.selectedPokemon.id}.png`}
-                alt="front"
-              />
+              <LazyLoad height={100}>
+                <img
+                  src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${props.selectedPokemon.id}.png`}
+                  alt="front"
+                />
+              </LazyLoad>
+
               {props.path === "list" && <h2>x{countPokemon}</h2>}
             </div>
             <div className="pokemonData">
@@ -166,7 +173,7 @@ const PokemonCard = (props) => {
       const cardContainerStyle = css({
         display: "flex",
         width: "45%",
-        height: "100px",
+        height: "201px",
         margin: "10px 0",
         backgroundColor: "grey",
         borderRadius: "20px 20px 0 0",

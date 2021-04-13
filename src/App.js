@@ -1,15 +1,18 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from "react-router-dom";
-import { PokemonDetail, PokemonList, PokemonMe } from "./pages";
 import { PokemonProvider } from "./pokemonContext";
 import { Global } from "@emotion/react";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+
+const PokemonDetail = lazy(() => import("./pages/pokemonDetail"));
+const PokemonList = lazy(() => import("./pages/pokemonList"));
+const PokemonMe = lazy(() => import("./pages/pokemonMe"));
 
 const client = new ApolloClient({
   uri: "https://graphql-pokeapi.vercel.app/api/graphql",
@@ -39,20 +42,22 @@ function App() {
                 },
               }}
             />
-            <Switch>
-              <Route exact path="/">
-                <Redirect to="/list" />
-              </Route>
-              <Route path="/list">
-                <PokemonList />
-              </Route>
-              <Route path="/detail/:id">
-                <PokemonDetail />
-              </Route>
-              <Route path="/me">
-                <PokemonMe />
-              </Route>
-            </Switch>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Switch>
+                <Route exact path="/">
+                  <Redirect to="/list" />
+                </Route>
+                <Route path="/list">
+                  <PokemonList />
+                </Route>
+                <Route path="/detail/:id">
+                  <PokemonDetail />
+                </Route>
+                <Route path="/me">
+                  <PokemonMe />
+                </Route>
+              </Switch>
+            </Suspense>
           </div>
         </PokemonProvider>
       </ApolloProvider>
