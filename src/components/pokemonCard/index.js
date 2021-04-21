@@ -2,7 +2,7 @@
 import React, { Fragment, useState, useContext, useEffect } from "react";
 import LazyLoad from "react-lazyload";
 import { css } from "@emotion/react";
-import { usePalette } from "react-palette";
+import { usePalette, getPalette } from "react-palette";
 import { PokemonContext } from "../../pokemonContext";
 import { useHistory } from "react-router-dom";
 
@@ -18,9 +18,9 @@ const PokemonCard = (props) => {
     removePokemon,
   } = useContext(PokemonContext);
   let pokemonsList = props.path === "list" ? [...pokemons] : [...myPokemon];
-  const { data } = usePalette(
-    props.selectedPokemon.image && props.selectedPokemon.image
-  );
+  // const { data } = usePalette(
+  //   props.selectedPokemon.image && props.selectedPokemon.image
+  // );
 
   const currentPokemonIndex = pokemonsList.findIndex(
     (pokemon) => pokemon.id === props.selectedPokemon.id
@@ -33,14 +33,20 @@ const PokemonCard = (props) => {
   useEffect(() => {
     if (
       currentPokemonIndex >= 0 &&
-      Object.keys(data).length &&
       !pokemonsList[currentPokemonIndex].hasOwnProperty("colorsPalette")
     ) {
-      setColorsPalette(data);
-      pokemonsList[currentPokemonIndex]["colorsPalette"] = data;
+      getPalette(props.selectedPokemon.image)
+        .then((color) => {
+          setColorsPalette(color);
+          pokemonsList[currentPokemonIndex]["colorsPalette"] = color;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
       if (props.path === "list") setPokemons(pokemonsList);
     }
-  }, [data]);
+  }, []);
 
   useEffect(() => {
     if (

@@ -42,7 +42,7 @@ function App() {
                 },
               }}
             />
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={null}>
               <Switch>
                 <Route exact path="/">
                   <Redirect to="/list" />

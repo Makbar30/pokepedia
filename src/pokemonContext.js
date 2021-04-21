@@ -41,6 +41,7 @@ export const PokemonProvider = ({ children }) => {
   }
 
   function setSelectedPokemon(pokemon) {
+    window.localStorage.setItem("POKEMON_DETAIL", JSON.stringify(pokemon))
     dispatch({
       type: "SET_SELECTED_POKEMON",
       payload: pokemon,

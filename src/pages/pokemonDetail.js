@@ -27,8 +27,10 @@ const renderAbilities = (abilities) => {
 
 const PokemonDetail = () => {
   const [pokemon, setPokemon] = useState(null);
+  const pokemonDtl = JSON.parse(window.localStorage.getItem("POKEMON_DETAIL"));
   const { selectedPokemon, catchPokemon } = useContext(PokemonContext);
-  const queryName = selectedPokemon ? selectedPokemon.name : "";
+  const queryName = selectedPokemon ? selectedPokemon.name : pokemonDtl.name;
+  const localPokemonDetail = selectedPokemon ? {...selectedPokemon} : {...pokemonDtl}
 
   const GET_POKEMONS_DETAIL = gql`
     query pokemon($name: String!) {
@@ -81,12 +83,12 @@ const PokemonDetail = () => {
       let pokemon = JSON.parse(JSON.stringify(data.pokemon));
       setPokemon({
         ...pokemon,
-        ...selectedPokemon,
+        ...localPokemonDetail,
       });
     }
   }, [data]);
 
-  if (loading) return "Loading ...";
+  if (loading) return "Loading graphql ...";
   if (error) return `Error ${error}`;
 
   const tryCatchPokemon = () => {
@@ -99,7 +101,7 @@ const PokemonDetail = () => {
   };
 
   const renderDetail = () => {
-    if (selectedPokemon && pokemon) {
+    if (localPokemonDetail && pokemon) {
       const detailStyle = css({
         display: "flex",
         flexDirection: "column",
@@ -331,6 +333,7 @@ const PokemonDetail = () => {
       if (queryName === "") {
         return <Redirect to="/list" />;
       }
+      console.log(localPokemonDetail, pokemon)
       return "Loading...";
     }
   };
